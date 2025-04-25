@@ -1,0 +1,9 @@
+#include "Colour.hpp"
+#include <SDL2/SDL_render.h>
+
+namespace Engen {
+
+  void Colour::Colour::setRendererColor(SDL_Renderer *render,SDL_Color color) {
+    SDL_SetRenderDrawColor(render, color.r,color.g,color.b,color.a);
+  }
+} // namespace Basic

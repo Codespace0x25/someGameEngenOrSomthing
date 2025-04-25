@@ -1,0 +1,36 @@
+#pragma once
+#include "../lib/Lib.hpp"
+#include "player.hpp"
+#include <SDL2/SDL.h>
+
+namespace Componets {
+using namespace Engen;
+class Camera : public Updatable, public RenderAble {
+public:
+  Camera(Player &player, int w, int h);
+  void Update(Uint32 delta) override;
+  void Ready() override;
+  void render(SDL_Renderer *renderer) override;
+  void addRenderer(GameObject *obj);
+  
+  // Transform world coordinates to screen coordinates
+  SDL_Rect worldToScreen(int x, int y, int w, int h);
+
+private:
+  struct {
+    int w, h;
+  } worldSpace; // World dimensions
+  
+  struct {
+    int w, h;
+  } screenSpace; // Screen dimensions
+  
+  struct {
+    int x, y;
+  } cameraPos; // Camera position in world space
+  
+  Player &player_;
+  
+  std::vector<GameObject *> renderAbles;
+};
+} // namespace Componets

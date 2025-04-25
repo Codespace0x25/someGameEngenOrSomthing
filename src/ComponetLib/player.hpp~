@@ -1,0 +1,43 @@
+#pragma  once
+#include "../lib/GameObject.hpp"
+#include "../lib/Colour.hpp"
+#include "PlayerControler.hpp"
+#include <string>
+#include <vector>
+
+namespace Componets {
+using namespace Engen;
+
+class Player : public GameObject, public PlayerControlerDefalt {
+public:
+  Player(int x, int y, int w, int h,std::string spritesheet);
+  ~Player();
+
+  void drawbody(SDL_Renderer *render);
+
+  void Update(Uint32 delta) override;
+  void Ready() override;
+  void render(SDL_Renderer *renderer) override;
+  void forwards() override;
+  void backwards() override;
+  void left() override;
+  void right() override;
+  void tp(int mx,int my);
+  int getHeath();
+  int getMaxHeath();
+  void setMaxHeath(int amount);
+  void setHeath(int amount);
+  void addHeath(int amount);
+  void subHeath(int amount);
+
+  void setSpeed(int amount);
+private:
+  std::string spritesheet_;
+  std::string username;
+  int speed = 1;
+  int maxHeath = 20;
+  int heath = maxHeath;
+};
+
+
+}

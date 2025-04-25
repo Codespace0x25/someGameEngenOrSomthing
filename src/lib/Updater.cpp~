@@ -1,0 +1,34 @@
+#include "Updater.hpp"
+
+extern "C"{
+namespace Basic {
+
+Updatable::Updatable() {
+  lurpData.isLurping = false;
+  lurpData.startTicks = 0;
+  lurpData.lastTick = 0;
+  last_tick = 0;
+}
+
+void Updatable::lurp(void (*func)(float), unsigned sec) {
+  Uint32 currentTime = SDL_GetTicks();
+
+  if (!lurpData.isLurping) {
+    lurpData.startTicks = currentTime;
+    lurpData.isLurping = true;
+    lurpData.lastTick = currentTime;
+  }
+
+  Uint32 elapsed = currentTime - lurpData.startTicks;
+  float progress = elapsed / (sec * 1000.0f);
+
+  if (progress >= 1.0f) {
+    progress = 1.0f;
+    lurpData.isLurping = false;
+  }
+
+  func(progress);
+}
+
+} // namespace Basic
+}

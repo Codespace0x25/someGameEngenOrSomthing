@@ -1,0 +1,14 @@
+#include "Seceen.hpp"
+#include "Lib.hpp"
+#include "TopLayer.hpp"
+#include <vector>
+
+namespace Engen {
+  Seceen::Seceen(TopLayer* toplayer):engenHook(toplayer){}
+  Seceen::~Seceen(){}
+  void Seceen::Ready(){
+  }
+  void Seceen::Start(){
+  }
+
+} // namespace Engen

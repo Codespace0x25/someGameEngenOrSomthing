@@ -1,0 +1,30 @@
+#include "ComponetLib/Envimerment.hpp"
+#include "ComponetLib/PlayerStats.hpp"
+#include "ComponetLib/player.hpp"
+#include "lib/Lib.hpp"
+#include "lib/Renderable.hpp"
+#include "lib/TopLayer.hpp"
+#include <SDL2/SDL_stdinc.h>
+#include <cstddef>
+#include <iostream>
+#include <pthread.h>
+#include <string>
+
+int main() {
+  std::string title = "Cotw - ";
+  int errorReturn;
+
+  Engen::TopLayer toplayer(title, &errorReturn, {900, 600});
+
+  Componets::Player player(20,20, 16 * 10, 16 * 10, "assets/spriteSheet.png");
+  Componets::Environment env(player, 500, 500, 16, "assets/spriteSheet.png");
+  Componets::PlayerHud hud(player);
+  toplayer.addRenderAble(&env);
+  toplayer.addGameObject(&hud);
+  toplayer.addGameObject(&player);
+  toplayer.addEventHandlers(&player);
+  //player.tp(500, 500);
+  //toplayer.run();
+
+  return 0;
+}

@@ -1,0 +1,21 @@
+#pragma once
+#include <SDL2/SDL.h>
+
+namespace Engen {
+class Updatable {
+public:
+  Updatable();
+  virtual void Update(Uint32 delta) = 0;
+  virtual void Ready() = 0;
+  virtual void lurp(void (*func)(float), unsigned sec);
+
+  Uint32 last_tick;
+protected:
+  struct {
+    bool isLurping;
+    Uint32 startTicks;
+    Uint32 lastTick;
+  } lurpData;
+
+};
+} // namespace Basic

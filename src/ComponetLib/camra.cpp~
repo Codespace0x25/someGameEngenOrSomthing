@@ -1,0 +1,100 @@
+#include "camra.hpp"
+#include "../lib/Lib.hpp"
+#include "player.hpp"
+#include <SDL2/SDL.h>
+
+namespace Componets {
+using namespace Engen;
+
+Camera::Camera(Player &player, int w, int h)
+    : Updatable(), RenderAble(), player_(player) {
+  worldSpace.w = w;
+  worldSpace.h = h;
+  
+  // Get the screen dimensions - use for centering
+  int screenW, screenH;
+  SDL_GetRendererOutputSize(SDL_GetRenderer(SDL_GetWindowFromID(1)), &screenW, &screenH);
+  screenSpace.w = screenW;
+  screenSpace.h = screenH;
+  
+  // Initialize camera position to follow player
+  cameraPos.x = player_.getX() - (screenSpace.w / 2) + (player_.getW() / 2);
+  cameraPos.y = player_.getY() - (screenSpace.h / 2) + (player_.getH() / 2);
+}
+
+void Camera::Update(Uint32 delta) {
+  // Update camera position to follow the player
+  cameraPos.x = player_.getX() - (screenSpace.w / 2) + (player_.getW() / 2);
+  cameraPos.y = player_.getY() - (screenSpace.h / 2) + (player_.getH() / 2);
+}
+
+void Camera::Ready() {}
+
+SDL_Rect Camera::worldToScreen(int x, int y, int w, int h) {
+  // Transform world coordinates to screen coordinates
+  SDL_Rect screenRect;
+  screenRect.x = x - cameraPos.x;
+  screenRect.y = y - cameraPos.y;
+  screenRect.w = w;
+  screenRect.h = h;
+  return screenRect;
+}
+
+void Camera::render(SDL_Renderer *renderer) {
+  // Save the original render viewport
+  SDL_Rect originalViewport;
+  SDL_RenderGetViewport(renderer, &originalViewport);
+  
+  // Render all game objects with camera transform
+  for (auto obj : renderAbles) {
+    // Get object world position
+    int objX = obj->getX();
+    int objY = obj->getY();
+    int objW = obj->getW();
+    int objH = obj->getH();
+    
+    // Convert to screen coordinates
+    SDL_Rect screenPos = worldToScreen(objX, objY, objW, objH);
+    
+    // Only render if within view
+    if (screenPos.x + screenPos.w >= 0 && 
+        screenPos.x <= screenSpace.w && 
+        screenPos.y + screenPos.h >= 0 && 
+        screenPos.y <= screenSpace.h) {
+      
+      // Temporarily adjust object position for rendering
+      int origX = obj->getX();
+      int origY = obj->getY();
+      obj->setX(screenPos.x);
+      obj->setY(screenPos.y);
+      
+      // Render the object
+      obj->render(renderer);
+      
+      // Restore original position
+      obj->setX(origX);
+      obj->setY(origY);
+    }
+  }
+  
+  // Render player at center of screen
+  int playerOrigX = player_.getX();
+  int playerOrigY = player_.getY();
+  
+  // Center player on screen
+  player_.setX(screenSpace.w / 2 - player_.getW() / 2);
+  player_.setY(screenSpace.h / 2 - player_.getH() / 2);
+  
+  // Render the player
+  player_.render(renderer);
+  
+  // Restore player's original position
+  player_.setX(playerOrigX);
+  player_.setY(playerOrigY);
+}
+
+void Camera::addRenderer(GameObject *obj) {
+  renderAbles.push_back(obj);
+}
+
+} // namespace Componets

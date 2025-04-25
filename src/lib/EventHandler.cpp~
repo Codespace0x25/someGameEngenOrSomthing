@@ -1,0 +1,7 @@
+#include "EventHandler.hpp"
+
+namespace Basic {
+EventHandler::EventHandler() {}
+
+EventHandler::~EventHandler() {}
+}

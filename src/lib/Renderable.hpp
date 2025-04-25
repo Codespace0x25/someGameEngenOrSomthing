@@ -1,0 +1,12 @@
+#pragma once
+#include <SDL2/SDL.h>
+
+namespace Engen {
+class RenderAble {
+public:
+  RenderAble();
+  virtual ~RenderAble();
+  virtual void render(SDL_Renderer *renderer);
+protected:
+};
+} // namespace Basic

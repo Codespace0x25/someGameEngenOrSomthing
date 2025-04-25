@@ -1,0 +1,62 @@
+#include "Lib.hpp"
+#include "camra.hpp"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_rect.h>
+
+namespace Engen {
+class ViewPort {
+public:
+  static ViewPort &GetInstance() {
+    static ViewPort instance;
+    return instance;
+  }
+
+  void Set(int dx, int dy) {
+    w = dx;
+    h = dy;
+  }
+
+  int getScreenW() { return w; }
+  int getScreenH() { return h; }
+  SDL_Point WorldToScreen(int wouldx, int wouldy) const {
+    int camX = Camera::GetInstance().getX();
+    int camY = Camera::GetInstance().getY();
+    return {.x = wouldx - camX, .y = wouldy - camY};
+  }
+  SDL_Point ScreenToWorld(int screenx, int screeny) const {
+    int camX = Camera::GetInstance().getX();
+    int camY = Camera::GetInstance().getY();
+    return {.x = screenx - camX, .y = screeny - camY};
+  }
+
+  SDL_Rect WorldToScreen(const SDL_Rect &wouldRect) const {
+    int camX = Camera::GetInstance().getX();
+    int camY = Camera::GetInstance().getY();
+    return {.x = wouldRect.x - camX,
+            .y = wouldRect.y - camY,
+            .w = wouldRect.w,
+            .h = wouldRect.h};
+  }
+  SDL_Rect ScreenToWorld(const SDL_Rect &wouldRect) const {
+    int camX = Camera::GetInstance().getX();
+    int camY = Camera::GetInstance().getY();
+    return {.x = wouldRect.x - camX,
+            .y = wouldRect.y - camY,
+            .w = wouldRect.w,
+            .h = wouldRect.h};
+  }
+
+  void setRenderer(SDL_Renderer* render){
+    render_ = render;
+  }
+  
+  SDL_Renderer* getRenderer(){
+    return render_;
+  }
+private:
+  SDL_Renderer* render_;
+  ViewPort() = default;
+  int w = 0;
+  int h = 0;
+};
+} // namespace Engen

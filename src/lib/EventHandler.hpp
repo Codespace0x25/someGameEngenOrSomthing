@@ -1,0 +1,13 @@
+#pragma once
+#include <SDL2/SDL.h>
+
+
+
+namespace Engen {
+class EventHandler {
+public:
+  EventHandler();               // <- This needs a definition
+  virtual ~EventHandler();
+  virtual void handleEvent(const SDL_Event &e)=0;
+};
+} // namespace Basic

@@ -1,0 +1,12 @@
+#include "Renderable.hpp"
+
+namespace Basic {
+
+RenderAble::RenderAble() {}
+
+RenderAble::~RenderAble() {} // <-- NEW
+
+void RenderAble::render(SDL_Renderer *renderer) {
+}
+
+} // namespace Basic

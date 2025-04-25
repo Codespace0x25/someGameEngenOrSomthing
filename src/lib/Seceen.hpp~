@@ -1,0 +1,18 @@
+#pragma once
+#include "Lib.hpp"
+#include "TopLayer.hpp"
+#include <vector>
+
+namespace Engen {
+class Seceen {
+public:
+  Seceen(TopLayer* toplayer);
+  ~Seceen();
+  virtual void Ready();
+  virtual void Start();
+
+protected:
+  pthread_t prosses;
+  TopLayer* engenHook;
+};
+} // namespace Engen

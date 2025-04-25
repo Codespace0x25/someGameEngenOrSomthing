@@ -1,0 +1,11 @@
+#pragma once
+#include "../lib/Lib.hpp"
+
+namespace Componets {
+class Shape {
+public:
+  static void filledCircle(SDL_Renderer *renderer, int cx, int cy, int radius,
+                    SDL_Color color);
+  static void filledCircalPresent(SDL_Renderer *renderer,int cx, int cy, int radius,double precentage,double maxValue,SDL_Color color);
+};
+} // namespace Basic

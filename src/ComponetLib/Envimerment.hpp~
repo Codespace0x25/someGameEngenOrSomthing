@@ -1,0 +1,13 @@
+#pragma onec
+
+#include "../lib/Lib.hpp"
+
+
+
+namespace Componets {
+using namespace Engen;
+  
+
+
+  
+}

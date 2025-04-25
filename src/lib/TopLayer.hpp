@@ -1,0 +1,79 @@
+#pragma once
+#include "Colour.hpp"
+#include "EventHandler.hpp"
+#include "GameObject.hpp"
+#include "Renderable.hpp"
+#include "Updater.hpp"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_events.h>
+#include <SDL2/SDL_pixels.h>
+#include <SDL2/SDL_render.h>
+#include <SDL2/SDL_video.h>
+#include <pthread.h>
+#include <sstream>
+#include <string>
+#include <vector>
+
+namespace Engen {
+typedef struct Vec2 Vec2;
+class TopLayer {
+public:
+  TopLayer(std::string name,int *errorReturn,Vec2 size);
+  ~TopLayer();
+  // user fushoins, for the engen hook
+  virtual void run();
+  virtual void runEvents();
+  virtual void runRender();
+  virtual void runUpdaters();
+
+  // toglers
+  void toggleFullscreen();
+
+  // adders
+
+  void addEventHandlers(EventHandler *data);
+  void addRenderAble(RenderAble *data);
+  void addUpdatable(Updatable *data);
+  void addGameObject(GameObject *data);// if true then it will be added to the event handlers as well.
+
+
+  // seters
+  void setBackGroundColor(SDL_Color color);
+  void setTitle(std::string title);
+
+  // getters
+  static std::string GetError();
+  std::string getTitle();
+  SDL_Renderer* GetRenderer();
+  int Width();
+  int Height();
+
+protected:
+  static std::stringstream ErrorMessage;
+private:
+  SDL_Color backGroundColour = Colour::Colour::black;
+  bool isRunning = true;
+  std::string title = "main";
+
+  struct{
+    pthread_t GameThread;
+    pthread_t SoundThread;
+  }threadStore;
+
+  struct{
+    int W,H;
+  }diminshion;
+
+  struct {
+    SDL_Window *window;
+    SDL_Renderer *render;
+    SDL_Event event;
+  } sdlData;
+
+  struct {
+    std::vector<EventHandler *> eventHandlers;
+    std::vector<RenderAble *> renderAbles;
+    std::vector<Updatable *> updatAbles;
+  } ComponetStor;
+};
+} // namespace Engen
