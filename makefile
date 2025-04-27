@@ -6,33 +6,32 @@ COMP_SRC = $(SRC)/ComponetLib
 TARGET = $(BUILD)/engen.Linux
 TARGET_WIN = $(BUILD)/engen.exe
 
-CXXFLAGS = -O0 -g -Wall -std=c++17 -I src/ 
+CXXFLAGS = -O0 -g -Wall -std=c++17 -I$(SRC) 
 SDL_LIBS := $(shell sdl2-config --cflags) $(shell sdl2-config --libs) -lSDL2_ttf -lSDL2_image
 
-LIB_CPP = $(wildcard $(LIB_SRC)/*.cpp) 
-LIB_HPP = $(wildcard $(LIB_SRC)/*.hpp) 
-COMP_CPP = $(wildcard $(COMP_SRC)/*.cpp) 
-COMP_HPP = $(wildcard $(COMP_SRC)/*.hpp) 
-MAIN_CPP = $(wildcard $(SRC)/*.cpp)
+LIB_CPP = $(wildcard $(LIB_SRC)/*.cpp)
+LIBSTD_CPP = $(wildcard $(LIB_SRC)/std/*.cpp)
+COMP_CPP = $(wildcard $(COMP_SRC)/*.cpp)
+MAIN_CPP = $(filter-out $(LIB_CPP) $(COMP_CPP), $(wildcard $(SRC)/*.cpp))
+
+OBJ = $(patsubst $(SRC)/%.cpp,$(BUILD)/%.o,$(MAIN_CPP) $(LIB_CPP) $(LIBSTD_CPP) $(COMP_CPP))
 
 .PHONY: all linux windows clean test
 
-all: linux #windows
+all: linux
 
 $(BUILD):
 	mkdir -p $(BUILD)
 
 linux: $(TARGET)
 
-# this is not working right now
-# windows: $(TARGET_WIN)
+$(TARGET): $(BUILD) $(OBJ)
+	$(CC) $(OBJ) $(CXXFLAGS) $(SDL_LIBS) -o $@
 
-$(TARGET): $(BUILD) $(MAIN_CPP) $(LIB_CPP) $(LIB_HPP) $(COMP_HPP)
-	$(CC) $(MAIN_CPP) $(LIB_CPP) $(CXXFLAGS) $(SDL_LIBS) $(COMP_CPP) -o $@
-
-# this is not working right now
-# $(TARGET_WIN): $(BUILD) $(MAIN_CPP) $(LIB_CPP) $(LIB_HPP)
-#	zig c++ -target x86_64-windows-gnu $(MAIN_CPP) $(LIB_CPP) $(CXXFLAGS) -lSDL2 -lSDL2_ttf -o $@
+# Compile .cpp to .o
+$(BUILD)/%.o: $(SRC)/%.cpp
+	@mkdir -p $(dir $@)
+	$(CC) $(CXXFLAGS) $(SDL_LIBS) -c $< -o $@
 
 clean:
 	rm -rf $(BUILD)

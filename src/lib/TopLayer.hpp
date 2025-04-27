@@ -18,8 +18,11 @@ namespace Engen {
 typedef struct Vec2 Vec2;
 class TopLayer {
 public:
+
+
   TopLayer(std::string name,int *errorReturn,Vec2 size);
   ~TopLayer();
+
   // user fushoins, for the engen hook
   virtual void run();
   virtual void runEvents();
@@ -51,6 +54,7 @@ public:
 protected:
   static std::stringstream ErrorMessage;
 private:
+
   SDL_Color backGroundColour = Colour::Colour::black;
   bool isRunning = true;
   std::string title = "main";

@@ -6,12 +6,12 @@
 (defun call/MakeFile-test ()
   (interactive)
   (let ((default-directory (projectile-project-root)))
-    (compile "make clean test")))
+    (compile "make  test")))
 
 (defun call/MakeFile-comp ()
   (interactive)
   (let ((default-directory (projectile-project-root)))
-    (compile "make clean all")))
+    (compile "make  all")))
 
 
 

@@ -19,7 +19,9 @@ void PlayerHud::Ready() {}
 void PlayerHud::render(SDL_Renderer *renderer) {
   int ww, wh;
   SDL_GetRendererOutputSize(renderer, &ww, &wh);
+  Shape::filledCircle(SDL_Renderer *renderer, int cx, int cy, int radius, SDL_Color color)
   Shape::filledCircle(renderer, ww - 62,62  , 30,Colour::Colour::gray);
+  Sprite::
   Shape::filledCircalPresent(renderer, ww - 62,62  , 30,
                              (double)player.getHeath(),
                              (double)player.getMaxHeath(),

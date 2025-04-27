@@ -13,10 +13,11 @@ using namespace Engen;
 class Environment : public RenderAble {
 public:
   Environment(Player &player, int w, int h, int spriteSize,
-              std::string spriteSheet);
+              std::string spriteSheet, int scale);
   void render(SDL_Renderer *renderer) override;
 
 private:
+  int scale_;
   SDL_Texture *texture_;
   std::string spriteSheet_;
   std::map<std::pair<int, int>, Vec2> data;
