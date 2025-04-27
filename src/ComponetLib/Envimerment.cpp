@@ -33,7 +33,7 @@ Environment::Environment(Player &player, int w, int h, int spriteSize,
       SDL_Rect rect = {tilePos.x, tilePos.y, spriteSize_ * scale_, spriteSize_ * scale_};
       std::cout << "Sprite added to texture: x:" << i << " y:" << j << std::endl;
       SpriteSheet::render(ViewPort::GetInstance().getRenderer(), rect.x, rect.y,
-                          rect.w, rect.h, spriteSheet_, tilex,tiley);
+                          rect.w, rect.h, spriteSheet_, tilex,tiley,16);
     }
   }
 

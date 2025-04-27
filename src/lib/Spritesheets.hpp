@@ -25,7 +25,7 @@ public:
   static void InitSheet(SDL_Renderer *renderer, const std::string path,
                         int spriteW, int sprinteH, const std::string name);
   static void render(SDL_Renderer *renderer, int x, int y, int w, int h,
-		     std::string spritesheet_, int Sx, int Sy) ;
+	      std::string spritesheet_, int Sx, int Sy, int spriteSize=16);
 private:
   static std::unordered_map<std::string, SheetData> sheets_;
 };

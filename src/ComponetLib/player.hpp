@@ -1,7 +1,9 @@
 #pragma  once
 #include "../lib/GameObject.hpp"
 #include "../lib/Colour.hpp"
+#include "../Game/Items.hpp"
 #include "PlayerControler.hpp"
+#include <map>
 #include <string>
 #include <vector>
 
@@ -54,6 +56,12 @@ public:
   void addTherst(int amount);
   void subTherst(int amount);
   void setSpeed(int amount);
+
+  struct {
+    std::map<int, Game::Item*> items;
+    int maxItem;
+  }inventoryData;
+
 private:
   MOVE_e direshion;
   std::string spritesheet_;
@@ -65,7 +73,6 @@ private:
   int hunger = maxHunger;
   int maxTherst = 20;
   int therst = maxTherst;
-
 };
 
 

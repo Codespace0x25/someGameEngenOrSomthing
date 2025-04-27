@@ -13,6 +13,7 @@ Player::Player(int x, int y, int w, int h, std::string spritesheet)
     : GameObject("player", x, y, w, h), PlayerControlerDefalt(),
       spritesheet_(spritesheet) {
   Camera::GetInstance().Set(x, y);
+  inventoryData.maxItem=4;
 }
 
 Player::~Player() {}
@@ -33,18 +34,18 @@ void Player::drawbody(SDL_Renderer *renderer) {
   SDL_Rect screenRect = ViewPort::GetInstance().WorldToScreen(to_Rect());
 
   SpriteSheet::render(renderer, screenRect.x - 2, screenRect.y + 25, w, h,
-                      spritesheet_, 3, 8); // body
+                      spritesheet_, 3, 8,16); // body
 
   switch (direshion) {
 
   case Move_Left:
     SpriteSheet::render(renderer, screenRect.x + 35, screenRect.y + 5, w / 2,
-                        h / 2, spritesheet_, 1, 7); // head
+                        h / 2, spritesheet_, 1, 7,16); // head
     break;
 
   case Move_Right:
     SpriteSheet::render(renderer, screenRect.x + 105, screenRect.y + 5, -w / 2,
-                        h / 2, spritesheet_, 1, 7); // head
+                        h / 2, spritesheet_, 1, 7,16); // head
     break;
 
   case Move_Forward:
@@ -53,7 +54,7 @@ void Player::drawbody(SDL_Renderer *renderer) {
     break;
   case Move_Back:
     SpriteSheet::render(renderer, screenRect.x + 33, screenRect.y + 15, w / 2,
-                        h / 2, spritesheet_, 2, 7); // head
+                        h / 2, spritesheet_, 2, 7,16); // head
     break;
   }
 }

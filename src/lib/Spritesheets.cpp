@@ -38,13 +38,13 @@ void SpriteSheet::InitSheet(SDL_Renderer *renderer, const std::string path,
   sheets_[name] = {.texture = texture, .spriteW = spriteW, .spriteH = spriteH};
 }
 void SpriteSheet::render(SDL_Renderer *renderer, int x, int y, int w, int h,
-                         std::string spritesheet_, int Sx, int Sy) {
+                         std::string spritesheet_, int Sx, int Sy, int spriteSize) {
   SDL_Texture *texture = IMG_LoadTexture(renderer, spritesheet_.c_str());
   if (!texture) {
     SDL_Log("Failed to load texture: %s", IMG_GetError());
     return;
   }
-  SDL_Rect srcRect = {Sx*16, Sy*16, 16, 16}; // Example: 16x16 sprite size
+  SDL_Rect srcRect = {Sx*spriteSize, Sy*spriteSize, spriteSize, spriteSize}; // Example: 16x16 sprite size
   SDL_Rect destRect = {x, y, w,
                        h}; // Draw at player's position with width and height
 
