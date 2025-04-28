@@ -6,12 +6,12 @@
 (defun call/MakeFile-test ()
   (interactive)
   (let ((default-directory (projectile-project-root)))
-    (compile "make  test")))
+    (compile "make -j 3 test")))
 
 (defun call/MakeFile-comp ()
   (interactive)
   (let ((default-directory (projectile-project-root)))
-    (compile "make  all")))
+    (compile "make -j 3 all")))
 
 
 

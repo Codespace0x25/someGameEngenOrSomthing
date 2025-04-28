@@ -33,8 +33,8 @@ void PlayerHud::render(SDL_Renderer *renderer) {
   Shape::filledCircle(renderer, ww - 62, 62 + (1 * 62), 30,
                       Colour::Colour::gray);
   Shape::filledCircalPresent(
-      renderer, ww - 62, 62 + (1 * 62), 30, (double)player.getHeath(),
-      (double)player.getMaxHeath(), Colour::Colour::gold);
+      renderer, ww - 62, 62 + (1 * 62), 30, (double)player.getHunger(),
+      (double)player.getMaxHunger(), Colour::Colour::gold);
   SpriteSheet::render(renderer, ww - 62 - (63 / 2), 62 / 2 + (1 * 63), 63, 63,
                       "assets/Ui.png", 0, 0, 32);
 
@@ -42,8 +42,8 @@ void PlayerHud::render(SDL_Renderer *renderer) {
   Shape::filledCircle(renderer, ww - 62 - (30 * 2 + 3), 62 + (1 * 62), 30,
                       Colour::Colour::gray);
   Shape::filledCircalPresent(renderer, ww - 62 - (30 * 2 + 3), 62 + (1 * 62),
-                             30, (double)player.getHeath(),
-                             (double)player.getMaxHeath(),
+                             30, (double)player.getTherst(),
+                             (double)player.getMaxTherst(),
                              Colour::Colour::blue);
   SpriteSheet::render(renderer, ww - 62 - (63 / 2) - (30 * 2 + 3),
                       62 / 2 + (1 * 63), 63, 63, "assets/Ui.png", 0, 0, 32);
@@ -52,6 +52,7 @@ void PlayerHud::render(SDL_Renderer *renderer) {
   for (int i = 0; i != player.inventoryData.maxItem; i++) {
     SpriteSheet::render(renderer, ww - 60, wh / 2 + (i * 60), 60, 60,
                         "assets/Ui.png", 1, 0, 32);
+    
   }
 }
 } // namespace Componets

@@ -1,8 +1,8 @@
-#pragma  once
-#include "../lib/GameObject.hpp"
+#pragma once
 #include "../lib/Colour.hpp"
-#include "../Game/Items.hpp"
+#include "../lib/GameObject.hpp"
 #include "PlayerControler.hpp"
+#include "Items.hpp"
 #include <map>
 #include <string>
 #include <vector>
@@ -10,16 +10,11 @@
 namespace Componets {
 using namespace Engen;
 
-  typedef enum {
-    Move_Left,
-    Move_Forward,
-    Move_Right,
-    Move_Back
-  }MOVE_e;
-  
+typedef enum { Move_Left, Move_Forward, Move_Right, Move_Back } MOVE_e;
+
 class Player : public GameObject, public PlayerControlerDefalt {
 public:
-  Player(int x, int y, int w, int h,std::string spritesheet);
+  Player(int x, int y, int w, int h, std::string spritesheet);
   ~Player();
 
   void drawbody(SDL_Renderer *render);
@@ -31,7 +26,7 @@ public:
   void backwards() override;
   void left() override;
   void right() override;
-  void tp(int mx,int my);
+  void tp(int mx, int my);
   // heath
   int getHeath();
   int getMaxHeath();
@@ -57,12 +52,26 @@ public:
   void subTherst(int amount);
   void setSpeed(int amount);
 
+
+  void addItem(Item *item ,int posishion){
+    inventoryData.items[posishion] = item;
+    item->Pickup(this);
+  }
+  void remvoeItem(Item *item ,int posishion){
+    if(inventoryData.items[posishion]->Stack_>0){
+      item=inventoryData.items[posishion];
+      item->Stack_--;
+    }
+  }
+
+
   struct {
-    std::map<int, Game::Item*> items;
-    int maxItem;
-  }inventoryData;
+    std::map<int, Item *> items;
+    uint maxItem;
+  } inventoryData;
 
 private:
+  int congo = 0;
   MOVE_e direshion;
   std::string spritesheet_;
   std::string username;
@@ -75,5 +84,4 @@ private:
   int therst = maxTherst;
 };
 
-
-}
+} // namespace Componets

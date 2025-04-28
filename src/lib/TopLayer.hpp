@@ -57,6 +57,7 @@ private:
 
   SDL_Color backGroundColour = Colour::Colour::black;
   bool isRunning = true;
+  bool isFullScreen= false;
   std::string title = "main";
 
   struct{

@@ -7,6 +7,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_error.h>
 #include <SDL2/SDL_events.h>
+#include <SDL2/SDL_keycode.h>
 #include <SDL2/SDL_pixels.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_timer.h>
@@ -68,6 +69,18 @@ void TopLayer::runEvents() {
   while (SDL_PollEvent(&sdlData.event)) {
     if (sdlData.event.type == SDL_QUIT)
       isRunning = false;
+    if(sdlData.event.type == SDL_KEYDOWN && sdlData.event.key.keysym.sym == SDLK_F11){
+      if(!isFullScreen){
+	SDL_SetWindowFullscreen(sdlData.window, SDL_WINDOW_FULLSCREEN);
+	isFullScreen = !isFullScreen;
+      }else {
+	SDL_SetWindowFullscreen(sdlData.window, SDL_WINDOW_MINIMIZED);
+	isFullScreen = !isFullScreen;
+      }
+      int xa,ya;
+      SDL_GetWindowSize(sdlData.window, &xa, &ya);
+      ViewPort::GetInstance().Set(xa, ya);
+    }
 
     for (auto handler : ComponetStor.eventHandlers) {
       handler->handleEvent(sdlData.event);
